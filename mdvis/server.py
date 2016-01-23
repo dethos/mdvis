@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, send_file
+from markdown import markdown as md
 import webbrowser
 import os
-import json
+
 
 ALLOWED_IMAGE_EXTENSIONS = ["gif", "jpeg", "jpg", "bmp", "png"]
 
@@ -9,7 +10,8 @@ app = Flask(__name__)
 
 
 # Initialization functions
-def build_tree(rootDir='.'):
+# The below 3 function need to be refactored
+def build_tree(rootDir='.', depth=4):
     for dirName, subdirList, fileList in os.walk(rootDir):
         dir_contents = get_dir_contents(fileList)
         path_nodes = dirName.split("/") if dirName != "." else []
@@ -40,7 +42,7 @@ def run_server(open_browser=True):
     if open_browser:
         browser = webbrowser.get()
         browser.open("http://localhost:5000")
-    app.run()
+    app.run(debug=True)
 
 
 # Flask Routes, executed per request
@@ -49,9 +51,21 @@ def index():
     return "Hello World!"
 
 
-@app.route("/<path:file>")
-def show(file):
-    return "true"
+@app.route("/<path:file_path>")
+def show(file_path):
+    path_elements = file_path.split("/")
+    md_file = app.file_tree
+    for elem in path_elements:
+        md_file = md_file.get(elem, {})
+    if md_file:
+        if md_file["extension"] == "md":
+            with open("./{}".format(file_path)) as f:
+                    return md(f.read())
+        else:
+            return send_file(file_path,
+                             mimetype='image/{}'.format(md_file["extension"]))
+    else:
+        return "Not Found"
 
 
 # Entry points

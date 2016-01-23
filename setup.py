@@ -6,11 +6,11 @@ reading and navigation.
 """
 
 setup(
-    name="leitormd",
+    name="mdvis",
     version="0.1.0",
     author="Gonçalo Valério",
     author_email="gon@ovalerio.net",
-    url="https://github.com/dethos/leitormd",
+    url="https://github.com/dethos/mdvis",
     description="Simple way to read folders of mardown files on the browser",
     long_description=long_description,
     license="GPLv3",
@@ -21,14 +21,14 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
     ],
-    packages=["leitormd"],
+    packages=["mdvis"],
     install_requires=[
         "flask>=0.10.1",
         "markdown>=2.6.5"
     ],
     entry_points={
         'console_scripts': [
-            'leitormd = leitormd.server:execute',
+            'mdvis = mdvis.server:execute',
         ]
     }
 )
