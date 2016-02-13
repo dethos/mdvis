@@ -22,13 +22,16 @@ setup(
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
     ],
     packages=["mdvis"],
+    include_package_data=True,
     install_requires=[
         "flask>=0.10.1",
-        "markdown>=2.6.5"
+        "markdown>=2.6.5",
+        "py-gfm>=0.1.1"
     ],
     entry_points={
         'console_scripts': [
             'mdvis = mdvis.server:execute',
         ]
-    }
+    },
+    zip_safe=False
 )

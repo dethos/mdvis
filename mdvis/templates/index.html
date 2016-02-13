@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="{{url_for('static', filename='base.css')}}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="tree-menu">
+            {{indexpage}}
+        </div>
+    </div>
+    <div class="content">
+        <iframe src="{{indexpage}}" frameborder="0" class="content-frame"></iframe>
+    </div>
+</body>
+</html>

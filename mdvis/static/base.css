@@ -1,0 +1,31 @@
+/* Wireframe styles */
+.sidebar {
+    float:left;
+    width: 25%;
+    height: 100%;
+    background-color: #eeeeee
+}
+
+.tree-menu {
+
+}
+
+.content {
+    float:right;
+    width: 75%;
+    height: 100%;
+}
+
+.content-frame {
+    width: 100%;
+    height: 99%;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0 0 0 0;
+}
