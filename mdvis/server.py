@@ -24,8 +24,9 @@ def build_tree(root_dir='.', depth=4):
         dir_contents = get_dir_contents(file_list)
         path_nodes = dir_name.split("/") if dir_name != "." else []
         if path_nodes:
-            own_node = path_nodes[-1]
-            get_parent(path_nodes)[own_node] = dir_contents
+            if dir_contents:
+                own_node = path_nodes[-1]
+                get_parent(path_nodes)[own_node] = dir_contents
         else:
             app.file_tree = dir_contents
 
@@ -33,6 +34,8 @@ def build_tree(root_dir='.', depth=4):
 def get_parent(path_nodes):
     current_parent = app.file_tree
     for parent in path_nodes[1:-1]:
+        if parent not in current_parent:
+            current_parent[parent] = {}
         current_parent = current_parent[parent]
     return current_parent
 
@@ -42,7 +45,8 @@ def get_dir_contents(file_list):
     for fname in file_list:
         name_components = fname.split(".")
         extension = name_components[-1] if len(name_components) > 1 else None
-        content[fname] = {"extension": extension}
+        if extension == "md" or extension in ALLOWED_IMAGE_EXTENSIONS:
+            content[fname] = {"extension": extension}
     return content
 
 
@@ -72,12 +76,30 @@ def get_html_version(file_path):
     return html
 
 
+def generate_menu(node, path=""):
+    domlist = "<ul>{}</ul>"
+    elements = []
+    for key in node:
+        if key == "extension":
+            return ""
+        element = "<li>{}</li>"
+        subdir = generate_menu(node[key], "{}/{}".format(path, key))
+        content = "<a href='{}/{}' target='content-frame'>{}</a><br>{}"
+        content = content.format(path, key, key, subdir)
+        elements.append(element.format(content))
+
+    return domlist.format("".join(elements))
+
+
 # Flask Routes, executed per request
 @app.route("/")
 def index():
     """ Servers the page the the wieframes / iframes"""
+    menu = Markup(generate_menu(app.file_tree))
     indexpage = get_index_file(app.file_tree)
-    return render_template("index.html", indexpage=indexpage)
+    return render_template("index.html",
+                           indexpage=indexpage,
+                           menu=menu)
 
 
 @app.route("/<path:file_path>")
