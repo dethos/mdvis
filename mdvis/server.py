@@ -118,6 +118,7 @@ def show(file_path):
             if node.get("extension", "") == "md":
                 content = get_html_version(file_path)
             else:
+                # this must be replaced with a redirect
                 ifile = get_index_file(node)
                 content = get_html_version("{}/{}".format(file_path, ifile))
 
