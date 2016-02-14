@@ -111,7 +111,7 @@ def show(file_path):
         node = node.get(elem, {})
     if node:
         if node.get("extension", "") in ALLOWED_IMAGE_EXTENSIONS:
-            return send_file(file_path,
+            return send_file("{}/{}".format(os.getcwd(), file_path),
                              mimetype='image/{}'.format(node["extension"]))
         # Still need to add the case where it is not an allowed file type
         elif node.get("extension", "") == "md":
