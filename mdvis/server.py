@@ -61,7 +61,7 @@ def run_server(open_browser=True):
     if open_browser:
         browser = webbrowser.get()
         browser.open("http://localhost:{}".format(port))
-    app.run(port=port, use_reloader=False, debug=False)
+    app.run(port=port, use_reloader=False, debug=True)
 
 
 # Helpers
