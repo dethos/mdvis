@@ -7,7 +7,7 @@ reading and navigation.
 
 setup(
     name="mdvis",
-    version="0.1.0",
+    version="0.1.1",
     author="Gonçalo Valério",
     author_email="gon@ovalerio.net",
     url="https://github.com/dethos/mdvis",
