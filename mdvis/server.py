@@ -21,8 +21,10 @@ def build_tree(root_dir='.', depth=4):
     This stricture is used later, when the server is running.
     """
     for dir_name, subdir_list, file_list in os.walk(root_dir):
-        dir_contents = get_dir_contents(file_list)
         path_nodes = dir_name.split("/") if dir_name != "." else []
+        if len(path_nodes) > depth:
+            continue
+        dir_contents = get_dir_contents(file_list)
         if path_nodes:
             if dir_contents:
                 own_node = path_nodes[-1]
@@ -59,7 +61,7 @@ def run_server(open_browser=True):
     if open_browser:
         browser = webbrowser.get()
         browser.open("http://localhost:{}".format(port))
-    app.run(port=port, use_reloader=False, debug=True)
+    app.run(port=port, use_reloader=False, debug=False)
 
 
 # Helpers
