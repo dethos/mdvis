@@ -10,13 +10,17 @@ I sketched this little program, so you can quickly go through all the `.md` file
 
 ## Install
 
-Currently it is not on PyPI since it is still a little rough. To install you will need to:
+If you use `pip` just run the following command:
 
-Clone the repository and run:
+> $ pip install mdvis
+
+Currently it is not on PyPI since it is still a little rough. Without resorting to `pip` to install you will need to clone the repository and run:
 
 > $ python setup.py install
 
-(Note: This was only written for Python 3)
+Note: This was written for, and tested on, Python 3.
+
+Note2: On some systems you might need to use `sudo`
 
 ## Usage
 
