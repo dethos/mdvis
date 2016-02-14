@@ -6,7 +6,7 @@ import webbrowser
 import os
 
 
-ALLOWED_IMAGE_EXTENSIONS = ["gif", "jpeg", "jpg", "bmp", "png"]
+ALLOWED_EXTENSIONS = ["gif", "jpeg", "jpg", "bmp", "png", "mp4", "webm"]
 INDEX_PAGES = ["index.md", "readme.md", "README.md", "Readme.md"]
 
 app = Flask(__name__)
@@ -45,7 +45,7 @@ def get_dir_contents(file_list):
     for fname in file_list:
         name_components = fname.split(".")
         extension = name_components[-1] if len(name_components) > 1 else None
-        if extension == "md" or extension in ALLOWED_IMAGE_EXTENSIONS:
+        if extension == "md" or extension in ALLOWED_EXTENSIONS:
             content[fname] = {"extension": extension}
     return content
 
@@ -110,9 +110,8 @@ def show(file_path):
     for elem in path_elements:
         node = node.get(elem, {})
     if node:
-        if node.get("extension", "") in ALLOWED_IMAGE_EXTENSIONS:
-            return send_file("{}/{}".format(os.getcwd(), file_path),
-                             mimetype='image/{}'.format(node["extension"]))
+        if node.get("extension", "") in ALLOWED_EXTENSIONS:
+            return send_file("{}/{}".format(os.getcwd(), file_path))
         # Still need to add the case where it is not an allowed file type
         elif node.get("extension", "") == "md":
             content = get_html_version(file_path)
