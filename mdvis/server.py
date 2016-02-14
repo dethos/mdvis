@@ -1,4 +1,4 @@
-from flask import Flask, send_file, render_template
+from flask import Flask, send_file, render_template, redirect, url_for
 from markdown import markdown as md
 from random import randint
 from jinja2 import Markup
@@ -114,19 +114,19 @@ def show(file_path):
             return send_file(file_path,
                              mimetype='image/{}'.format(node["extension"]))
         # Still need to add the case where it is not an allowed file type
-        else:
-            if node.get("extension", "") == "md":
-                content = get_html_version(file_path)
-            else:
-                # this must be replaced with a redirect
-                ifile = get_index_file(node)
-                content = get_html_version("{}/{}".format(file_path, ifile))
-
+        elif node.get("extension", "") == "md":
+            content = get_html_version(file_path)
             return render_template("document.html",
                                    content=content,
                                    file_path=file_path)
-    else:
-        return "Not Found"
+        else:
+            ifile = get_index_file(node)
+            if ifile:
+                return redirect(url_for("show",
+                                        file_path="{}/{}".format(file_path,
+                                                                 ifile)))
+
+    return "Markdown file not found."
 
 
 # Entry points
