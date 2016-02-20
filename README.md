@@ -10,17 +10,21 @@ I sketched this little program, so you can quickly go through all the `.md` file
 
 ## Install
 
+This package is destined only to python 3 users.
+
 If you use `pip` just run the following command:
 
 > $ pip install mdvis
 
-Currently it is not on PyPI since it is still a little rough. Without resorting to `pip` to install you will need to clone the repository and run:
+on many operating systems python 3 is not the default version in this case the command should be:
+
+> pip3 install mdvis
+
+Without resorting to `pip` to install you will need to clone the repository and run:
 
 > $ python setup.py install
 
-Note: This was written for, and tested on, Python 3.
-
-Note2: On some systems you might need to use `sudo`
+**Note:** On some systems you might need to use `sudo`
 
 ## Usage
 
