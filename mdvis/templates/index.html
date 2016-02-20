@@ -13,5 +13,12 @@
     <div class="content">
         <iframe src="{{indexpage}}" frameborder="0" class="content-frame" name="content-frame"></iframe>
     </div>
+    <script type="text/javascript">
+        window.onbeforeunload = function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "close", true);
+            xhttp.send();
+        }
+    </script>
 </body>
 </html>
