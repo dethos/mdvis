@@ -7,7 +7,7 @@ import os
 
 
 ALLOWED_EXTENSIONS = ["gif", "jpeg", "jpg", "bmp", "png", "mp4", "webm"]
-INDEX_PAGES = ["index.md", "readme.md", "README.md", "Readme.md"]
+INDEX_PAGES = ["index", "readme"]
 
 app = Flask(__name__)
 
@@ -45,10 +45,16 @@ def get_parent(path_nodes):
 def get_dir_contents(file_list):
     content = {}
     for fname in file_list:
-        name_components = fname.split(".")
-        extension = name_components[-1] if len(name_components) > 1 else None
+        # Get name components
+        n_sections = fname.split(".")
+        # Only for index check
+        name = n_sections[0].lower()
+        extension = n_sections[-1].lower() if len(n_sections) > 1 else None
+        index = False
         if extension == "md" or extension in ALLOWED_EXTENSIONS:
-            content[fname] = {"extension": extension}
+            if name in INDEX_PAGES and extension not in ALLOWED_EXTENSIONS:
+                index = True
+            content[fname] = {"extension": extension, 'is_index': index}
     return content
 
 
@@ -66,8 +72,8 @@ def run_server(open_browser=True):
 
 # Helpers
 def get_index_file(obj):
-    for name in INDEX_PAGES:
-        if obj.get(name, ""):
+    for name in obj:
+        if obj[name].get("is_index", ''):
             return name
     return ""
 
@@ -81,9 +87,9 @@ def get_html_version(file_path):
 def generate_menu(node, path=""):
     domlist = "<ul>{}</ul>"
     elements = []
+    if node.get("extension", ''):
+        return ''
     for key in node:
-        if key == "extension":
-            return ""
         element = "<li>{}</li>"
         subdir = generate_menu(node[key], "{}/{}".format(path, key))
         content = "<a href='{}/{}' target='content-frame'>{}</a><br>{}"
