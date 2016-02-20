@@ -1,9 +1,11 @@
-from flask import Flask, send_file, render_template, redirect, url_for
+from flask import Flask, send_file, render_template, redirect, url_for, request
 from markdown import markdown as md
 from random import randint
 from jinja2 import Markup
 import webbrowser
 import os
+import logging
+import sys
 
 
 ALLOWED_EXTENSIONS = ["gif", "jpeg", "jpg", "bmp", "png", "mp4", "webm"]
@@ -70,6 +72,13 @@ def run_server(open_browser=True):
     app.run(port=port, use_reloader=False, debug=True)
 
 
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+
 # Helpers
 def get_index_file(obj):
     for name in obj:
@@ -110,7 +119,7 @@ def index():
                            menu=menu)
 
 
-@app.route("/<path:file_path>")
+@app.route("/<path:file_path>", methods=["GET"])
 def show(file_path):
     """ Servers the html version of the files if they exist"""
     path_elements = file_path.split("/")
@@ -134,6 +143,18 @@ def show(file_path):
                                                                  ifile)))
 
     return "Markdown file not found."
+
+
+@app.route("/close", methods=["POST"])
+def close():
+    shutdown_server()
+    return "Shutting Down ..."
+
+
+@app.before_first_request
+def setup_logging():
+    logger = logging.getLogger('werkzeug')
+    logger.setLevel(logging.CRITICAL)
 
 
 # Entry points
