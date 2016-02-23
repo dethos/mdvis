@@ -98,7 +98,7 @@ def generate_menu(node, path=""):
     elements = []
     if node.get("extension", ''):
         return ''
-    for key in node:
+    for key in sorted(node.keys()):
         element = "<li>{}</li>"
         subdir = generate_menu(node[key], "{}/{}".format(path, key))
         content = "<a href='{}/{}' target='content-frame'>{}</a><br>{}"
