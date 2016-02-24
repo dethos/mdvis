@@ -1,7 +1,7 @@
 from setuptools import setup
 
 long_description = """This simple program launches the browser and serves all
-Mardown files in a given folder formated as beautiful html pages for easy
+Markdown files in a given folder formatted as beautiful html pages for easy
 reading and navigation.
 """
 
@@ -11,7 +11,7 @@ setup(
     author="Gonçalo Valério",
     author_email="gon@ovalerio.net",
     url="https://github.com/dethos/mdvis",
-    description="Simple way to read folders of mardown files on the browser",
+    description="Simple way to read folders of markdown files on the browser",
     long_description=long_description,
     license="GPLv3",
     classifiers=[
